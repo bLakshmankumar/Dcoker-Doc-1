@@ -1,0 +1,111 @@
+# >                                                                 :- Multi-Stage-Docker-file -:
+# >                                                                 ------------------------------
+# > What is Multi-Stage-Docker-file -:
+-------------------------------------
+# > When we have a very complex requirement example i need dif dif softwares but finally we should only our application code and it's softwares.
+# > In that case we use multi-stage-docker-file.
+# > For example I wanna usinng docker itself i wanna clone our code, and I wanna build war file from code while create an docker image.
+# > For that requirement i'm use multi-stage-docker-file in one stage i'm use git for clone the code, to the next stage i'll pass only that code/project to the next stage(build stage).
+# > if i follw this multi-stage-docker-file we can reduce the image size. 
+
+# Sample Multi-Stage-Docker-file -:
+----------------------------------
+# > stage -1 -:
+---------------
+# > FROM git as repo
+# > RUN clone <https://github.com/lakshmanDevops/java-web-app-docker.git> (this folder we will give in nxt build stage).
+
+# > stage -2 -:
+---------------
+# > FROM maven as build 
+# > WORKDIR /app   (If this directory is not available it'll create the folder).
+# > COPY --from=repo /app/java-web-app-docker /app (Copy to destination path). 
+# > RUN mvn clean install
+
+# > Stage -3 -:
+---------------
+# > FROM tomcat:8.0
+# > COPY --from=build  /app/target/java-web-app.war   /usr/local/tomcat/webapps/java-web-app.war
+
+# > Explination -:
+#   --------------
+# > In first stage we clone the repo with repo name 
+# > In second stage we build the code for that we need a application code that code copy from stage one with <repo> name. this state generate something.
+# > In final stage i'm copying whatever the file is required.
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#                                                                         Multi-Stage-Docker-file
+#                                                                         -----------------------
+# Git 
+# FROM alpine/git as repo
+# MAINTAINER devopstrainingblr@gmail.com
+# WORKDIR /app
+# RUN git clone https://github.com/LakshmanDevOps/maven-web-application.git (change your git hub url).
+
+#Maven
+# FROM maven:3.5-jdk-8-alpine as build
+# WORKDIR /app
+# COPY --from=repo /app/maven-web-application  /app 
+# RUN mvn install
+
+#Tomcat
+#FROM tomcat:8.0.20-jre8
+#COPY --from=build /app/target/maven-web-application*.war /usr/local/tomcat/webapps/maven-web-application.war
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# > What is Shell Form and Executable Form in Docker ?
+#-----------------------------------------------------------------------
+# > RUN,CMD,ENTRYPOINT instructions can be defined in shell Form (Or) Executable Form.
+
+# Shell Form -:
+#---------------
+# > It's like something -:
+#----------------------- 
+# > RUN                          <Our command> <Argument>     
+# > CMD                          <Our command> <Argument>       
+# > ENTRYPOINT                   <Our command> <Argument>   
+
+# > Exmple -:
+#------------
+# >  RUN            mkdir -p /usr/test
+# > CMD             java -jar app.jar                  
+# > ENTRYPOINT      java -jar app.jar     
+
+# Executable Form -:
+#-------------------
+# How can we execute in this form, we execute somethinhg like this -:
+#--------------------------------------------------------------------
+# > RUN ["CMD" , "ARG1", "ARG2"]
+# > CMD ["CMD" , "ARG1", "ARG2"]
+# > ENTRYPOINT ["CMD" , "ARG1", "ARG2"]
+
+# > Exmple -:
+#------------
+# >  RUN                 ["mkdir" , "-p", "/usr/test"]
+# > CMD                  ["java", "-jar", "app.jar"]                     
+# > ENTRYPOINT           ["java", "-jar", "app.jar"]                    
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# > What is the Difference Between Shell Form and Executable Form in Docker ?
+#------------------------------------------------------------------------------
+# > Shell Form it will executed internally as a (/bin/<shell> -c <command>)
+#----------------------------------------------------------------------------
+# >  RUN                 mkdir -p /usr/test  > it's executed internally like as # > /bin/bash -c mkdir -p /usr/test
+# > CMD                  java -jar app.jar    > it's executed internally like as # > /bin/bash -c java -jar app.jar 
+# > ENTRYPOINT    java -jar app.jar    >  it's executed internally like as # > /bin/bash -c java -jar app.jar
+
+# Note -:
+#---------
+# > Here we use -c (it means command but it's execute as a child process not a parent process)  
+
+
+# > Executable Form it will executed internally as a (/bin/<> -c <command>) -:
+#------------------------------------------------------------------------------
+# >  RUN                 ["mkdir" , "-p", "/usr/test"]     >  it's executed internally like as # > /bin/bash mkdir -p /usr/test
+# > CMD                  ["java", "-jar", "app.jar"]        > it's executed internally like as # > /bin/bash java -jar app.jar           
+# > ENTRYPOINT    ["java", "-jar", "app.jar"]        > it's executed internally like as # > /bin/bash java -jar app.jar
+
+# Which one is preferable for CMD & ENTRYPOINT?
+#-----------------------------------------------
+# Executable Form
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
