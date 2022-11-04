@@ -186,7 +186,7 @@
 # > Now go to container  > docker exec -it jenkins bash 
 # > We can see the container user -: jenkins@21***:/$
 
-#                                                              Docker-file-for-ARG
+#                                                              Docker-file-for-User
 #                                                              --------------------
 # > FROM centos
 # > RUN echo "RUN ONE"
