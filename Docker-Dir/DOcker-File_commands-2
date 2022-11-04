@@ -1,0 +1,290 @@
+#                                                          DOCKER-FILE
+#                                                         -------------
+
+# In docker file we have different parameters/commands/intsructions -:
+#---------------------------------------------------------------------
+# > FROM             -: Here we define a base image and verison. {Ex:centos:1/latest & etc}.
+# > MAINTAINER       -: Author/Owner of the docker file/image        {Ex:*****@gmail.com}.
+# > COPY             -: It's used to copy files/folders to image while creating an image.
+# > ADD              -: Add also can Copy files to image. ADD can copy Local files and also it can download files from remote http(s) locations while creating an image.
+# > RUN              -: Run will execute while creating an image.RUN instruction can be used to install/setup required softwares/configurations while creating image.
+# > CMD              -: CMD will execute while creating a Container.
+# > ENTRYPOINT       -: ENTRYPOINT instruction also will be executed while creating a container. We can set an entrypoint(command) for our container which we want to execute.
+# > WORKDIR          -: Using this we can set a working directory for an image or container (WORKDIR <DirPath>)(WORKDIR /usr/local/tomcat).
+# > ENV              -: We can set Environment variables for an image using ENV. These Variables can be accessable in image(while creating an image). 
+# > LABEL            -: We can add a Lebels to our image. It's an additional info of image.
+# > ARG              -: ARG it's like a variables which we can define and reffer in a docker file. at run time(while creating a container) also we can pass arguments.
+# > USER             -: We can set an User for an Image or Container. The instructions will be executed as whatever user we have set using this USER instruction.
+# > EXPOSE           -: Expose indicates on which port our container is listening.
+# > VOLUME           -:  It's used to persist or mount directory with our server, if we delete our container also the data will be there. we can recreate the container with that volume(data).
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# > FROM -:
+----------
+# >  Here we define a base image and verison. it'll represent base image which we are going to use.
+
+# > Can We Give multiple From instructions in Dockerfile -:
+-----------------------------------------------------------
+# > Actually we are provide multiple FROM instrictions in multistage Docker file. 
+# > Bcs in multistage we will build images in multiple stages where we can use FROM instruction for each stage.
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# > COPY -:
+----------
+# >  It's used to copy LOCAL files/folders (FIle which are part of our server where we are creating an image) to image while creating an image. 
+# > If you wanna copy your source-code (or) application package  (or) copy some configuration files (or) copy some scripts & etc we can use copy instriction.
+
+# > Example -:
+--------------
+# > COPY <source> <Destination>
+# > COPY target/maven-web-app.war   /usr/local/tomcat/webapps/maven-web-app.war
+# > COPY . . (source(.) Destination(.)) { Here the source is ntg but a current working directory(where we creating an image}  {second dot represents current working directory of our image}
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# > ADD -:
+---------
+# > Add also can Copy files to image. ADD can copy Local files and also it can download files from remote http(s) locations while creating an image.
+# > If we are adding (or) Downloading tar files it's ending with (*.tar) only. It'll add and also it'll extract that file in an image.(it'll add and extract the .tar only not do the zip files).
+
+# > Example -:
+--------------
+# > ADD <source> <Destination>  { Source It can be URL and Destination path}
+# > ADD <URL>  <Destination path>
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# > RUN -:
+----------
+# > USing RUN we can executes commands on top of base image. RUN instructions will be executed while creating an image. 
+# > We can have/give n number of RUN Instructions (or) Keywords in a Docker FIle. All these instrictions will be executed From TOP to Bottom.
+
+# > UseCase of RUN -:
+---------------------
+# > RUN instruction can be used to install/setup required softwares/configurations while creating image.
+
+# > Example -:
+--------------
+# > RUN mkdir /app 
+# > RUN yum (or) apt install java
+# > RUN curl.
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# > CMD -:
+---------
+# > Using CMd we can execute commands. CMD Instruction/command will be executed while creating a container.
+# > We can have/give multiple CMD Instructions (or) Keywords in a Docker FIle. But it'll execute the Recent/Lat CMD Only.
+
+# > UseCase CMD -:
+------------------
+# > CMD Can be used to start the process(application) inside container while creating a container.
+
+# > Example -:
+--------------
+# > CMD ["catalina.sh", "run"]
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# > ENTRYPOINT -:
+----------------
+# > ENTRYPOINT instruction also will be executed while creating a container. We can set an entrypoint(command) for our container which we want to execute.
+# > We can have/give multiple ENTRYPOINT Instructions (or) Keywords in a Docker FIle. But it'll execute the Recent/Lat ENTRYPOINT Command Only.
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# WORKDIR -:
+-----------
+# > Using this we can set a working directory for an image or container (WORKDIR <DirPath>)(WORKDIR /usr/local/tomcat).
+# > whatever the instructions we are given under WORKDIR that instructions will process in that WORKDIR path(working directory).
+# > If you wanna verify the docker container directory use this command > docker exec <containerid/containername> pwd>.
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# ENV -:
+--------
+# > we can set Environment variables for an image using ENV. These Variables can be accessable in image(while creating an image) and also we can access/available these envs in container also. 
+# > While creating an image also we can access/available this Environment Variables also.
+
+# > We can set Environment variables like -:
+--------------------------------------------
+# > ENV <Key> <Value>
+# > ENV CATALINA_HOME /usr/local/tomcat
+# > ENV PATH $CATALINA_HOME/bin:$PATH
+# > RUN mkdir -p "$CATALINA_HOME"
+# > WORKDIR $CATALINA_HOME
+
+# How to verify Environment Variables in Container -:
+-----------------------------------------------------
+# > docker exec -it <containerid/containername> bash
+# > echo  $CATALINA_HOME
+# > echo $PATH
+
+# How to access Environment Variables in container -:
+-----------------------------------------------------
+# > docker inspect <imagename:version> -: we can see the env variables info under ENV..
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# LABEL -:
+---------
+# > Lebels are key value pairs which We can add a Lebels to our image. it's adds a metadata to our image.
+# > I created a LABEL like (LABEL branchName (dev))
+# > In future i wanna know which branch this image is created i'll come to know which branch the image is created.
+
+#                                                            Docker-file-for-label 
+#                                                           -----------------------
+# > FROM centos
+# > RUN echo "RUN ONE"
+# > RUN mkdir /app
+# > RUN echo "RUN Two"
+# > RUN yum install unzip -y
+# > CMD ["echo", "Welcom From CMD"]
+# > CMD date
+# > ARG branch=develop
+# > LABEL  branchName(key) develop(value) 
+# > {esc,shift:,wq!} - save the file and execute
+
+# > docker build -t labelimage .(at pwd)
+# > docker inspect imagename(labelimage)  -: inspect the image, we can see the image label info Under label info.
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# > ARG -:
+---------
+# > For example while creating an image i need to pass and arguments in docker file, So i can define arguments like this below
+# > ARG it's like a variables which we can define and reffer in a docker file. at run time(while creating a container) also we can pass arguments. we can pass multiple ARG to the image.
+# > Go to docker-file add an ARG instruction.( Here we just add the variable and we refer the values).
+# > ARG can be accessable only while creating an image. we can't refer/access in a container.
+
+
+#                                                            Docker-file-for-ARG
+#                                                            --------------------
+# > FROM centos
+# > RUN echo "RUN ONE"
+# > RUN mkdir /app
+# > RUN echo "RUN Two"
+# > RUN yum install unzip -y
+# > CMD ["echo", "Welcom From CMD"]
+# > CMD date
+# > ARG branch=develop
+# > LABEL  branchName $branch 
+# > {esc,shift:,wq!} - save the file and execute
+
+# > i create a ARG for Label and i pass that value from Arg. and i can change this arguments in run time also while creating an image.
+# > docker build -t testarg .
+# > docker inspect imagename(testarg)
+# > If you see under Label section it takes label value from arguments.
+
+# If you wanna change arg at build time do like this -:
+------------------------------------------------------
+# > docker build -t imagename --build-arg branch=feauture/login.
+# > Again inspect the image and see the label it change from develop to feature/login under labels section.
+# > docker inspect imagename.
+# So we can pass the ARG at image Runtime or a Docker-file.
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# > USER -:
+-----------
+# > We can set an User for an Image or Container. The instructions will be executed as whatever user we have set using this USER instruction.
+# > If we login to the container (docker exec -it container name bash) we can see the which user that container is running.[root@d0330fd5**:/$]. by default it takes root bcs we did't mention the user in our Docker-file.
+# > For example i run a jenkins as a container-: (this docker file is available in HUb.docker.com > search Jenkins > click on Docker dile) we can see the docker file for jenkins.
+# > docker run -d --name jenkins -p 9090:8080 jenkins/jenkins:lts(This image is available in hub.docker.com).
+# > Now go to container  > docker exec -it jenkins bash 
+# > We can see the container user -: jenkins@21***:/$
+
+#                                                              Docker-file-for-ARG
+#                                                              --------------------
+# > FROM centos
+# > RUN echo "RUN ONE"
+# > RUN mkdir /app
+# > RUN echo "RUN Two"
+# > RUN yum install unzip -y
+# > CMD ["echo", "Welcom From CMD"]
+# > CMD date
+# > ARG branch=develop
+# > LABEL  branchName $branch 
+# > USER <username>(jenkins).
+# > {esc,shift:,wq!} - save the file and execute
+
+# > If you wanna see jenkins Docker file -:  https://github.com/jenkinsci/docker/blob/587b2856cd225bb152c4abeeaaa24934c75aa460/Dockerfile
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# > EXPOSE -:
+------------
+# > Expose indicates on which port our container is listening. It's like a documentation using this we can understand what port is used.
+# > If we see any image (dokcer images(list the images) > then inspect the image (docker inspect imagename) > under config we can see the port details(what are the ports we set in a docker-file).
+
+# I wanna deploy my nodejs application using docker-file -:
+-----------------------------------------------------------
+# vi Dockerfile -:
+-----------------
+# FROM node:1                   #{it's a nodejs application so we need to use this base image } {Go to hub.docker.com > search node > we het verions list choose as per requirement} { if we not mention any version it'll take latest version}.
+# RUN mkdir -p /usr/app         #{if you wanna create a directory for store that app files we can create directory by using this RUN and then we need to create a WORKDIR and copy using COPY command{if the code is available in our local repo}.
+# WORKDIR                       #{we need to provide working directory which we create before for our file information using RUN command}
+# COPY  . .                     #{ What these two Dots are represents -: { Source and Destination}.{It'll copy file inside /usr/app}.
+# RUN npm install               #{For maven we execute mvn install right, like Nodejs we need to execute npm commands, bcs we required some dependencies for this node.js project and Those dependencies are defined in one file called {"package.json"}. 
+#                               # {{so if we execute npm command it'll download all required dependencies}}.
+#CMD ["node", "app.js"]         #{I provide a nodejs script name(file name)(app.js)}
+# esc,shift:,wq! {save the file}.               
+
+# create an image from this file -:
+-----------------------------------
+# > docker  build -t imagename:1 .       
+# > docker images                          -: We got our image
+# > docker inspect imagename:1             -: Now we can see the cmd executer under cmd.
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# VOLUME -:
+-----------
+# > VOLUME It's used to persist or mount directory with our server, if we delete our container also the data will be there. we can recreate the container with that volume(data).
+
+# > Example -:
+--------------
+# > VOLUME  /var/jenkins-Home
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+#                                                                                          :- Differneces Bitween Docker-FIle Commands -:
+#                                                                                          ----------------------------------------------
+# What is the difference B/w ENV & ARG -:
+----------------------------------------
+# > ENV -:
+---------
+# > If we pass any variables with ENV in docker file, those values we can access inside a container also.
+# > ex -: add ENV in docker file -: ENV TEST testenv > Then build an image and create a container > login to container (docker exec -it container name bash) then check (echo $Test). we can access.
+
+# ARG -:
+--------
+# > But if we pass Variables Using ARG in dockerfile, or while creating an image we can't access that value inside a container.
+# > ex -: add ARG in docker file -: ARG branch=testarg > Then build an image and create a container > login to container (docker exec -it container name bash) then check (echo $branch). we can't acccess.
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# What is the difference B/w ENV & CMD -:
+-----------------------------------------
+# > ENV -:
+----------
+# > In ENTRYPOINT Comamnds we can't be overriden while creating a container.{Example -: ["ping"]}
+
+# > CMD -:
+----------
+# > CMD Commands we can be overriden while creating a container. {Example -: ["google.com", "run"]}
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# What is the difference B/w COPY & ADD -:
+------------------------------------------
+# > COPY -:
+----------
+# > Copy 
+
+# > ADD -:
+----------
+# > Add also can COpy files to image. ADD can copy Local files and also it can download files from remote http(s) locations while creating an image.
+# > If we are adding (or) Downloading tar files it's ending with (*.tar) only. It'll add and also it'll extract that file in an image.(it'll add and extract the .tar only not do the zip files).
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# > How to check the docker image layers -:
+-------------------------------------------
+# > docker hystory <imagename>     -: we can see the image layer information.
+
+# > How to build an image from a specific Dockerfile (ex -: Dockerfile_Ent)-:
+-----------------------------------------------------------------------------
+# > docker build -f Dockerfile_Ent -t <imagename> .
+
+# > why we need to push docker image to pvt registory -:
+--------------------------------------------------------
+# > bcs we build docker images on build server (CICD server) So we creating an image and pushing to the repmote repository, So that we can deploy on any other servers.
