@@ -16,7 +16,7 @@
 # > ARG              -: ARG it's like a variables which we can define and reffer in a docker file. at run time(while creating a container) also we can pass arguments.
 # > USER             -: We can set an User for an Image or Container. The instructions will be executed as whatever user we have set using this USER instruction.
 # > EXPOSE           -: Expose indicates on which port our container is listening.
-# > VOLUME           -:  It's used to persist or mount directory with our server, if we delete our container also the data will be there. we can recreate the container with that volume(data).
+# > VOLUME           -: It's used to persist or mount directory with our server, if we delete our container also the data will be there. we can recreate the container with that volume(data).                        
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 # > FROM -:
