@@ -100,9 +100,9 @@
 
 # > Executable Form it will executed internally as a (/bin/<> -c <command>) -:
 #------------------------------------------------------------------------------
-# >  RUN                 ["mkdir" , "-p", "/usr/test"]     >  it's executed internally like as # > /bin/bash mkdir -p /usr/test
+# >  RUN                 ["mkdir" , "-p", "/usr/test"]      > it's executed internally like as # > /bin/bash mkdir -p /usr/test
 # > CMD                  ["java", "-jar", "app.jar"]        > it's executed internally like as # > /bin/bash java -jar app.jar           
-# > ENTRYPOINT    ["java", "-jar", "app.jar"]        > it's executed internally like as # > /bin/bash java -jar app.jar
+# > ENTRYPOINT           ["java", "-jar", "app.jar"]        > it's executed internally like as # > /bin/bash java -jar app.jar
 
 # Which one is preferable for CMD & ENTRYPOINT?
 #-----------------------------------------------
