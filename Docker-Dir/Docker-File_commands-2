@@ -287,4 +287,4 @@
 
 # > why we need to push docker image to pvt registory -:
 --------------------------------------------------------
-# > bcs we build docker images on build server (CICD server) So we creating an image and pushing to the repmote repository, So that we can deploy on any other servers.
+# > bcs we build docker images on build server (CICD server) So we creating an image and pushing to the repmote repository, So that we can deploy on any other servers..
