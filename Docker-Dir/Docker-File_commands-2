@@ -252,10 +252,10 @@
 # > ex -: add ARG in docker file -: ARG branch=testarg > Then build an image and create a container > login to container (docker exec -it container name bash) then check (echo $branch). we can't acccess.
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-# What is the difference B/w ENV & CMD -:
------------------------------------------
-# > ENV -:
-----------
+# What is the difference B/w ENTRYPOINT & CMD -:
+------------------------------------------------
+# > ENTRYPOINT -:
+-----------------
 # > In ENTRYPOINT Comamnds we can't be overriden while creating a container.{Example -: ["ping"]}
 
 # > CMD -:
