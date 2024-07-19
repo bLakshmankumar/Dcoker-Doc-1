@@ -26,8 +26,8 @@ RUN                           - The RUN instruction will execute any commands in
 EXPOSE                        - The EXPOSE command informs the Docker that the container listens on the specified network ports at runtime. You can specify whether the port listens on TCP or UDP, and the default is TCP if the protocol is not specified.
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-Docker log commands
-...................................................
+Docker log commands :
+=====================
 
 docker container logs --help                                     - To list the helping commands
 
@@ -39,7 +39,11 @@ docker logs --tail 100 4921d714d338                              - in order to s
 
 docker inspect --format={{.Logpath}} "container id"              - for check the specific path information
 
-grep error "resource name/id"                                    - we can get th error information about a specific resource 
+docker inspect <container_id_or_name>                            - Inspecting a Container
+
+docker inspect <image_id_or_name>                                - Inspecting an image
+
+grep error "resource name/id"                                    - we can get the error information about a specific resource 
 
 docker ps --filter="status=exited"                               - we can see only exited container information.
 
