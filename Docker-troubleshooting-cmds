@@ -1,5 +1,5 @@
 DockerFile Commands-:
-------------------------
+---------------------
 FROM                          - FROM is used to define the base image to start the build process. Every Dockerfile must start with the FROM instruction.
 
 ENV                           - This command used to set the environment variables that is required to run the project.(ENV sets the environment variables, which can be used in the Dockerfile and any scripts that it calls. These are persistent with the container too and they can be referenced at any time).
@@ -13,18 +13,17 @@ ENTRYPOINT                    - ENTRYPOINT has two forms:
                                   An ENTRYPOINT allows you to configure a container that will run as an executable.
                                   
 
-CMD                             - The main purpose of a CMD is to provide defaults when executing a container. These will be executed after the entry point. In Dockerfiles, you can define CMD defaults that include an executable.
-                                - NOTE: There can only be one CMD instruction in a Dockerfile. If you want to list more than one CMD, then only the last CMD will take effect. "CMD will be overridden when running the container with alternative arguments".
+CMD                           - The main purpose of a CMD is to provide defaults when executing a container. These will be executed after the entry point. In Dockerfiles, you can define CMD defaults that include an executable.
+                              - NOTE: There can only be one CMD instruction in a Dockerfile. If you want to list more than one CMD, then only the last CMD will take effect. "CMD will be overridden when running the container with alternative arguments".
 
 
-COPY                            - The COPY command is used to copy one or many local files or folders from source and adds them to the filesystem of the containers at the destination path.
+COPY                          - The COPY command is used to copy one or many local files or folders from source and adds them to the filesystem of the containers at the destination path.
 
+ADD                           - The ADD command is used to add one or many local files or folders from the source and adds them to the filesystem of the containers at the destination path.
 
-ADD                             - The ADD command is used to add one or many local files or folders from the source and adds them to the filesystem of the containers at the destination path.
+RUN                           - The RUN instruction will execute any commands in a new layer on top of the current image and commit the results. The resulting committed image will be used for the next step in the Dockerfile. The RUN command runs within the container at build time.
 
-RUN                             - The RUN instruction will execute any commands in a new layer on top of the current image and commit the results. The resulting committed image will be used for the next step in the Dockerfile. The RUN command runs within the container at build time.
-
-EXPOSE                          - The EXPOSE command informs the Docker that the container listens on the specified network ports at runtime. You can specify whether the port listens on TCP or UDP, and the default is TCP if the protocol is not specified.
+EXPOSE                        - The EXPOSE command informs the Docker that the container listens on the specified network ports at runtime. You can specify whether the port listens on TCP or UDP, and the default is TCP if the protocol is not specified.
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Docker log commands
@@ -62,41 +61,43 @@ docker events                                                     - we can get t
 docker commands -:
 ---------------------------
 
-docker --version                                                     - To get the docker version
+docker --version                                         - To get the docker version
 
-docker pull "image name"                                         - To download a docker image.
+docker pull "image name"                                 - To download a docker image.
 
-docker build -t imagename:tag                                 -  To bulid an docker image
+docker build -t imagename:tag                            -  To bulid an docker image
 
-docker run --name "containername"                         - To create a container
+docker tag myimage:latest myimage:v1.0                   -  Assume you have an image with the ID or name myimage:latest and you want to add the tag myimage:v1.0
+
+docker run --name "containername"                        - To create a container
  
-docker ps                                                               - To get the docker running container information
+docker ps                                                - To get the docker running container information
 
-docker ps -a                                                           - To get the all docker container information (both running & Stopped state)
+docker ps -a                                             - To get the all docker container information (both running & Stopped state)
 
-docker images                                                        - To get list of  docker images
+docker images                                            - To get list of  docker images
 
-docker inspect "containername/ID"                          - To  get the detailed information about container
+docker inspect "containername/ID"                        - To  get the detailed information about container
 
-df -h                                                                       - to know the mount volume list
+df -h                                                    - to know the mount volume list
 
-docker start "containername/ID"                              - To start the container
+docker start "containername/ID"                          - To start the container
 
-docker stop "containername/ID"                              - To stop the container
+docker stop "containername/ID"                           - To stop the container
 
-docker rm "containername/ID"                                 - To containerremove the 
+docker rm "containername/ID"                             - To containerremove the 
 
-docker rmi "imagename/id"                                      - To remove the docker image
+docker rmi "imagename/id"                                - To remove the docker image
 
-docker volume ls                                                     - To know the list volumes.
+docker volume ls                                         - To know the list volumes.
 
-docker prune                                                           - To remove all unused docker resources
+docker prune                                             - To remove all unused docker resources
 
-docker stats                                                            - To know the docker resourse information ( RAM, Memory, CPU, Swap & etc)
+docker stats                                             - To know the docker resourse information ( RAM, Memory, CPU, Swap & etc)
 
-docker search imagename(ex-: postgrees)                            - it'll search and it'll list the availble images on that name
+docker search imagename(ex-: postgrees)                  - it'll search and it'll list the availble images on that name
 
-docker pull imagename:version                                    - it'll download the image to our local machine
+docker pull imagename:version                            - it'll download the image to our local machine
 
 Docker Exec Multiple Commands-:
 -------------------------------
